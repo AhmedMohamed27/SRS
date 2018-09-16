@@ -1,0 +1,29 @@
+﻿@model SRS.Models.ViewModel.AspMatrialVM
+@{
+    ViewBag.Title = "Matrial Form";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+<h2>Matrial Form</h2>
+
+<ul>
+    @foreach (var fName in Model.Fname)
+    {
+        var name = fName;
+        var link = @Url.Content("~/Content/Matrial/") + name.Replace(" ", "%20");
+        <li>
+            <a href="@link">@name</a>
+        </li>
+    }
+</ul>
+<div>
+    @using (Html.BeginForm("Index", "Matrial", FormMethod.Post, new
+    {
+        enctype =
+    "multipart/form-data"
+    }))
+    {
+        <input type="File" name="file" id="file" value="Choose File" />
+        <button type="submit">Upload</button>
+    }
+</div>
+

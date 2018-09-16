@@ -1,0 +1,133 @@
+﻿@model SRS.Models.AspUserVm
+@{
+    ViewBag.Title = "User form";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Role Form</h2>
+
+<div class="container">
+    @using (Html.BeginForm("Save", "User"))
+    {
+        <div class="row">
+            @Html.ValidationSummary(true, "Fix the Following Errors")
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    @Html.LabelFor(c => c.AspUser.FirstName, new { @class = "h6" })
+                    @Html.TextBoxFor(c => c.AspUser.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.AspUser.FirstName)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(c => c.AspUser.LastName, new { @class = "h6" })
+                    @Html.TextBoxFor(c => c.AspUser.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.AspUser.LastName)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(c => c.AspUser.Email, new { @class = "h6" })
+                    @Html.TextBoxFor(c => c.AspUser.Email, new { @class = "form-control", id = "emailTxt" })
+                    @Html.ValidationMessageFor(c => c.AspUser.Email)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(c => c.AspUser.Phone, new { @class = "h6" })
+                    @Html.TextBoxFor(c => c.AspUser.Phone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.AspUser.Phone)
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Role</label>
+                    @Html.DropDownListFor(c => c.AspUser.AspRoleId, new SelectList(Model.AspRole, "RoleId", "Name"), "Select Role", new { @class = "form-control", id = "rolesDd" })
+                    @Html.ValidationMessageFor(c => c.AspUser.AspRoleId)
+                </div>
+
+                <div class="form-group" id="levelFG">
+                    <label for="">Level</label>
+                    @Html.DropDownListFor(c => c.AspUser.AspStudentLvlId, new SelectList(Model.AspStudentLvl, "Id", "lvlName"), "Select Level", new { @class = "form-control", id = "levelDb" })
+                    @Html.ValidationMessageFor(c => c.AspUser.AspStudentLvlId)
+                </div>
+
+                <div class="form-group" id="Studentid">
+                    @Html.LabelFor(c => c.AspUser.StudentID, new { @class = "h6" })
+                    @Html.TextBoxFor(c => c.AspUser.StudentID, new { @class = "form-control", id = "studentIdtxt", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(c => c.AspUser.StudentID)
+                </div>
+
+                @if (Model.AspUser.UserId == 0)
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.AspUser.Password, new { @class = "h6" })
+                        @Html.TextBoxFor(c => c.AspUser.Password, new { @class = "form-control", type = "password" })
+                        @Html.ValidationMessageFor(c => c.AspUser.Password)
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group" style="display:none">
+                        @Html.LabelFor(c => c.AspUser.Password, new { @class = "h6" })
+                        @Html.TextBoxFor(c => c.AspUser.Password, new { @class = "form-control", type = "password" })
+                        @Html.ValidationMessageFor(c => c.AspUser.Password)
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            @Html.HiddenFor(c => c.AspUser.UserId)
+            @Html.AntiForgeryToken()
+            <button type="submit" id="saveUser" class="btn btn-primary">Save</button>
+        </div>
+    }
+
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#rolesDd").change(function () {
+                if ($('#rolesDd option:selected').val() == 1) {
+                    $("#levelFG").css('display', 'block');
+                    $("#Studentid").css('display', 'block');
+                    $('#levelDb option:last').remove();
+                }
+                else {
+                    $("#levelFG").css('display', 'none');
+                    $("#Studentid").css('display', 'none');
+                    $('#levelDb option:selected').val(5);
+                    $("#studentIdtxt").val() = " ";
+                }
+            });
+            if ($('#rolesDd option:selected').val() == 1) {
+                $("#levelFG").css('display', 'block');
+                $("#Studentid").css('display', 'block');
+            }
+            else {
+                $("#levelFG").css('display', 'none');
+                $("#Studentid").css('display', 'none');
+            }
+
+            $("#levelDb").change(function () {
+                if ($('#levelDb option:selected').val() == 1) {
+                    $("#studentIdtxt").attr("value",@ViewData["lvlOneIDs"] + 1);
+                }
+                if ($('#levelDb option:selected').val() == 2){
+                    $("#studentIdtxt").attr("value",@ViewData["lvlTwoIDs"] + 1);
+                }
+                if ($('#levelDb option:selected').val() == 3){
+                    $("#studentIdtxt").attr("value",@ViewData["lvlThreeIDs"] + 1);
+                }
+                if ($('#levelDb option:selected').val() == 4){
+                    $("#studentIdtxt").attr("value",@ViewData["lvlFourIDs"] + 1);
+                }
+            })
+
+        })
+    </script>
+}

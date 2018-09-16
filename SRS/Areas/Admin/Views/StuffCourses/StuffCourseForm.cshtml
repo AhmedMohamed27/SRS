@@ -1,0 +1,42 @@
+﻿@model SRS.Models.ViewModel.AspStuffCourseVM
+@{
+    ViewBag.Title = "StuffCourseForm";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Stuff Course Form</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            @using (Html.BeginForm("Save", "StuffCourses"))
+            {
+
+
+                <div class="form-group">
+                    <label for="">Course</label>
+                    @Html.DropDownListFor(c => c.AspCourse.CourseId, new SelectList(Model.CourseDrobDown, "CourseId", "CourseName"), "Select Course", new { @class = "form-control", id = "courseSelected" })
+                    @Html.ValidationMessageFor(c => c.AspCourse.CourseId)
+
+                </div>
+
+
+                <div class="form-group">
+                    <label for="">Stuff</label>
+                    @Html.DropDownListFor(c => c.AspUser.UserId, new SelectList(Model.UserDrobDown.Where(c => c.AspRoleId == 3), "UserId", "FullName"), "Select Stuff", new { @class = "form-control", id = "Precourse" })
+                    @Html.ValidationMessageFor(c => c.AspUser.UserId)
+                    @Html.ValidationMessageFor(c => c.AspUser)
+
+                </div>
+                
+
+                @Html.HiddenFor(c => c.AspCourse.CourseId)
+                @Html.HiddenFor(c => c.AspUser.UserId)
+                <button type="submit" class="btn btn-primary">Save</button>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

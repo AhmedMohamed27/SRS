@@ -1,0 +1,477 @@
+﻿@model SRS.Models.ViewModel.AspRegistrationVM
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_SRSLayout.cshtml";
+}
+
+
+@if (ViewData["isRegisterBefore"].ToString() == "0")
+{
+    <div class="container">
+        <div class="row UserInfo">
+            <div class="col-md-8">
+                <h2 id="UserName" class="h2"></h2>
+                <h3 id="GPA" class="h3"></h3>
+                <h4 id="AvailableCourses" class="h4" style="color: #fff"></h4>
+            </div>
+            <div class="col-md-4">
+                <h4 id="Takenhours" class="h4"></h4>
+                <h4 id="Pendinghours" class="h4"></h4>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>Select Courses</label>
+                    <div class="tt-container">
+                        <input type="text" name="movie" id="course_" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <ul id="courses_" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-4">
+                <h4>Coursse that you can Register</h4>
+                <ul id="RegterCourses"></ul>
+            </div>
+        </div>
+        <br />
+        <button class="registerBtn btn btn-default" type="submit" id="Register">Register</button>
+
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row UserInfo">
+            <div class="col-md-8">
+                <h2 id="UserName" class="h2"></h2>
+                <h3 id="GPA" class="h3"></h3>
+                <br />
+                <h4 id="AvailableCourses" class="h4" style="color: #fff"></h4>
+            </div>
+            <div class="col-md-4">
+                <h4 id="Takenhours" class="h4"></h4>
+                <h4 id="Pendinghours" class="h4"></h4>
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>Select Courses</label>
+                    <div class="tt-container">
+                        <input type="text" name="movie" id="Exsistcourse_" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <ul id="Exsistcourses_" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-4">
+                <h4>Coursse that you can Register</h4>
+                <ul id="RegterCourses"></ul>
+            </div>
+        </div>
+        <br />
+        <button class="registerBtn btn btn-default" type="submit" id="Register">Update Registration</button>
+
+    </div>
+}
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            //------------------ Get Available Course that the Student Can Register -------------------
+
+            var UserId = @ViewData["Id"];
+            var vm = {
+                coursesId: []
+            };
+            $.ajax({
+                url: "/api/AllCoursesAPI/GetUserInfo",
+                method: 'GET',
+                data: {
+                    userId: UserId
+                },
+                success: function (response) {
+                    $("#UserName").html("Student name:&nbsp;<strong style='color:#E7E7E7'>" +
+                        response.UserFullName +
+                        "</strong>");
+                    $("#GPA").html("GPA:&nbsp;<strong style='color:#E7E7E7'>" + response.GpaVal + "</strong>");
+                    $("#Takenhours").html("Taken hours:&nbsp;<strong style='color:#E7E7E7'>" +
+                        response.Takenhours +
+                        "</strong>");
+                    $("#Pendinghours").html("Pending hours:&nbsp;<strong style='color:#E7E7E7'>" +
+                        response.Pendinghoures +
+                        "</strong>");
+                    if (response.GpaVal >= 3) {
+                        $("#AvailableCourses").append("[Note: Max Courses Register is Seven]");
+                    }
+                    if (response.GpaVal === 0 || response.GpaVal >= 2) {
+                        $("#AvailableCourses").append("[Note: Max Courses Register is Six]");
+                    }
+                    if ((response.GpaVal < 2 && response.GpaVal > 1.8) || response.GpaVal === 1.8) {
+                        $("#AvailableCourses").append("[Note: Max Courses Register is Five]");
+                    }
+                    if ((response.GpaVal < 1.8 && response.GpaVal > 1.5) || response.GpaVal === 1.5) {
+                        $("#AvailableCourses").append("[Note: Max Courses Register is Four]");
+                    }
+                    if (response.GpaVal < 1.5) {
+                        $("#AvailableCourses").append("[Note: Max Courses Register is Three]");
+                    }
+                },
+                error: function () {
+
+                }
+            });
+
+            vm.UserId = UserId;
+            var courses = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('CourseName'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/AllCoursesAPI?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#course_').typeahead({
+                minLength: 1,
+                highlight: true
+            }, {
+                name: 'courses',
+                display: 'CourseName',
+                source: courses
+            }).on("typeahead:select", function (e, course) {
+                $.ajax({
+                    url: "/api/StudentRegis/CheckPreCourses",
+                    method: "GET",
+                    data: {
+                        CourseId: course.CourseId,
+                        UserId: UserId
+                    },
+                    success: function (response) {
+                        if (response.length > 0) {
+                            bootbox.alert("Course that you Select has" + " [" + response + "] " + "as Pre Requsit Course/s for the Course You Select");
+                            $("#course_").typeahead("val", "");
+                        }
+                        else {
+                            $.ajax({
+                                url: "/api/StudentRegis/TimeForCourse",
+                                method: "GET",
+                                data: {
+                                    CourseId: course.CourseId
+                                },
+                                success: function(response) {
+                                    if (response === false) {
+                                        bootbox.alert("This Course is Not in this Semester");
+                                        $("#course_").typeahead("val", "");
+                                    }
+                                    if (response === true) {
+                                        $.ajax({
+                                            url: "/api/AllCoursesAPI/GetStuffInfo",
+                                            method: 'GET',
+                                            data: {
+                                                CourseId: course.CourseId
+                                            },
+                                            success: function (response) {
+                                                if (course.CourseName === $("#courses_ li span[id=" + course.CourseId + "]").text()) {
+                                                    bootbox.alert("You Select this Course before");
+                                                    $("#course_").typeahead("val", "");
+                                                }
+                                                else {
+
+                                                    $("#courses_").append("<li class='list-group-item courseView'>Course name:&nbsp;&nbsp;<span style='color:#f28221;font-weight:bold' id='" + course.CourseId + "'>" + course.CourseName + "</span><strong class='pull-right' style='color:#f28221'>(3 Credit houres)&nbsp;&nbsp;<span data-CourseId='" + course.CourseId + "' class='courseRemovePointer removeSelectedCours" + course.CourseId + "'><i class='fa fa-window-close' aria-hidden='true'></i></span></strong><br>Department:&nbsp;&nbsp;<strong style='color:#f28221'>" + course.DeparetmentName + "</strong><br>Stuff:&nbsp;&nbsp;<strong style='color:#f28221;font-weight:bold' id='stuffInfo" + course.CourseId + "'></strong><br>Doctor:&nbsp;&nbsp;<strong style='color:#f28221;font-weight:bold' id='doctorInfo" + course.CourseId + "'></strong></li>");
+
+                                                    if (response.length > 1) {
+                                                        for (var x = 0; x < response.length; x++) {
+                                                            //alert(response[x].DoctorName + response[x].StuffName);
+                                                            $("#courses_ li strong[id='stuffInfo" + course.CourseId + "']").append(response[x].StuffName + "&nbsp;&nbsp;");
+                                                            $("#courses_ li strong[id='doctorInfo" + course.CourseId + "']").append(response[x].DoctorName + "&nbsp;");
+                                                        }
+                                                    }
+                                                    $(".removeSelectedCours" + course.CourseId + "").click(function () {
+                                                        var selectedSpan = $(this);
+                                                        var courseId = selectedSpan.attr("data-CourseId");
+                                                        alert(courseId);
+                                                        vm.coursesId = $.grep(vm.coursesId, function (value) {
+                                                            return value != courseId;
+                                                        });
+                                                        alert(vm.coursesId);
+                                                        $(selectedSpan.parents("li")).remove();
+
+                                                    });
+
+                                                    $("#course_").typeahead("val", "");
+                                                    vm.coursesId.push(course.CourseId);
+                                                    //alert(vm.coursesId);
+                                                }
+                                            },
+                                            error: function () {
+                                                alert("Error");
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function() {
+
+                                }
+                            });
+                        }
+                    },
+                    error: function() {
+                        alert("Fail");
+                    }
+                });
+
+
+            });
+
+
+
+            // ---------------- Get Registration Form ---------------------------
+            if (@ViewData["isRegisterBefore"].ToString() >= "1") {
+                vm.UserId = UserId;
+                var exsistCourses = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('CourseName'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: '/api/AllCoursesAPI?query=%QUERY',
+                        wildcard: '%QUERY'
+                    }
+                });
+
+                $('#Exsistcourse_').typeahead({
+                    minLength: 1,
+                    highlight: true
+                }, {
+                    name: 'exsistCourses',
+                    display: 'CourseName',
+                    source: exsistCourses
+                }).on("typeahead:select", function (e, course) {
+                    $.ajax({
+                        url: "/api/StudentRegis/CheckPreCourses",
+                        method: "GET",
+                        data: {
+                            CourseId: course.CourseId,
+                            UserId: UserId
+                        },
+                        success: function (response) {
+                            
+                            if (response.length > 0) {
+                                bootbox.alert("Course that you Select has" +
+                                    " [" +
+                                    response +
+                                    "] " +
+                                    "as Pre Requsit Course/s for the Course You Select");
+                                $("#Exsistcourse_").typeahead("val", "");
+                            } else {
+                                $.ajax({
+                                    url: "/api/StudentRegis/TimeForCourse",
+                                    method: "GET",
+                                    data: {
+                                        CourseId: course.CourseId
+                                    },
+                                    success: function (response) {
+                                        if (response === false) {
+                                            bootbox.alert("This Course is Not in this Semester");
+                                            $("#Exsistcourse_").typeahead("val", "");
+                                        }
+                                        else {
+                                            $.ajax({
+                                                url: "/api/AllCoursesAPI/GetStuffInfo",
+                                                method: 'GET',
+                                                data: {
+                                                    CourseId: course.CourseId
+                                                },
+                                                success: function (response) {
+                                                    if (course.CourseName === $("#courses_ li span[id=" + course.CourseId + "]").text()) {
+                                                        bootbox.alert("You Select this Course before");
+                                                        $("#Exsistcourse_").typeahead("val", "");
+                                                    }
+                                                    else {
+
+                                                        $("#Exsistcourses_").append("<li class='list-group-item courseView'>Course name:&nbsp;&nbsp;<span style='color:#f28221;font-weight:bold' id='" + course.CourseId + "'>" + course.CourseName + "</span><strong class='pull-right' style='color:#f28221'>(3 Credit houres)&nbsp;&nbsp;<span data-CourseId='" + course.CourseId + "' class='courseRemovePointer removeSelectedCours" + course.CourseId + "'><i class='fa fa-window-close' aria-hidden='true'></i></span></strong><br>Department:&nbsp;&nbsp;<strong style='color:#f28221'>" + course.DeparetmentName + "</strong><br>Stuff:&nbsp;&nbsp;<strong style='color:#f28221;font-weight:bold' id='stuffInfo" + course.CourseId + "'></strong><br>Doctor:&nbsp;&nbsp;<strong style='color:#f28221;font-weight:bold' id='doctorInfo" + course.CourseId + "'></strong></li>");
+
+                                                        if (response.length > 1) {
+                                                            for (var x = 0; x < response.length; x++) {
+                                                                //alert(response[x].DoctorName + response[x].StuffName);
+                                                                $("#Exsistcourses_ li strong[id='stuffInfo" + course.CourseId + "']").append(response[x].StuffName + "&nbsp;&nbsp;");
+                                                                $("#Exsistcourses_ li strong[id='doctorInfo" + course.CourseId + "']").append(response[x].DoctorName + "&nbsp;");
+                                                            }
+                                                        }
+                                                        $(".removeSelectedCours" + course.CourseId + "").click(function () {
+                                                            var selectedSpan = $(this);
+                                                            var courseId = selectedSpan.attr("data-CourseId");
+                                                            alert(courseId);
+                                                            vm.coursesId = $.grep(vm.coursesId, function (value) {
+                                                                return value != courseId;
+                                                            });
+                                                            alert(vm.coursesId);
+                                                            $(selectedSpan.parents("li")).remove();
+
+                                                        });
+
+                                                        $("#Exsistcourse_").typeahead("val", "");
+                                                        vm.coursesId.push(course.CourseId);
+                                                        //alert(vm.coursesId);
+                                                    }
+                                                },
+                                                error: function () {
+                                                    alert("Error");
+                                                }
+                                            });
+                                        }
+                                    },
+                                    error: function () {
+
+                                    }
+                                });
+                            }
+                        },
+                        error: function() {
+                            alert("Fail");
+                        }
+                    });
+                    
+
+                });
+
+                
+
+                // --------------- Get your Registration -----------------------
+                $.ajax({
+                    url: "/api/StudentRegis/AllRegisForm",
+                    method: "GET",
+                    data: {
+                        userId: UserId
+                    },
+                    success: function (registrationForm) {
+                        //alert(vm.coursesId);
+                        if (registrationForm.length > 1) {
+                            for (var x = 0; x < registrationForm.length; x++) {
+                                var CourseId = registrationForm[x].CourseId;
+                                vm.coursesId.push(CourseId);
+                                $("#Exsistcourses_").append('<li class="list-group-item courseView">Course name:&nbsp;&nbsp;<span style="color:#f28221;font-weight:bold" id="' + registrationForm[x].CourseId + '">' + registrationForm[x].CourseName + '</span><strong class="pull-right" style="color:#f28221">(3 Credit houres)&nbsp;&nbsp;<span data-courseid="' + registrationForm[x].CourseId + '" class="courseRemovePointer removeSelectedCours'+registrationForm[x].CourseId+'"><i class="fa fa-window-close" aria-hidden="true"></i></span></strong><br>Department:&nbsp;&nbsp;<strong style="color:#f28221">' + registrationForm[x].DepartName + '</strong><br>Stuff:&nbsp;&nbsp;<strong style="color:#f28221;font-weight:bold" id="stuffInfo2' + registrationForm[x].CourseId + '"></strong><br>Doctor:&nbsp;&nbsp;<strong style="color:#f28221;font-weight:bold" id="doctorInfo2">' + registrationForm[x].DoctorNames + '</strong></li>');
+                                for (var y = 0; y < registrationForm[x].StuffNames.length; y++) {
+                                    $("#stuffInfo2" + registrationForm[x].CourseId)
+                                        .append("&nbsp;" + registrationForm[x].StuffNames[y] + "&nbsp;");
+                                }
+                                $(".removeSelectedCours"+registrationForm[x].CourseId+"").click(function() {
+                                    var selectedSpan = $(this);
+                                    var courseId = selectedSpan.attr("data-CourseId");
+                                    alert(courseId);
+                                    vm.coursesId = $.grep(vm.coursesId, function(value) {
+                                        return value != courseId;
+                                    });
+                                    alert(vm.coursesId);
+                                    $(selectedSpan.parents("li")).remove();
+
+                                });
+                            }
+
+                        }
+
+                    },
+                    error: function() {
+                        alert("Fail");
+                    }
+                });
+            }
+
+
+
+
+
+            $("#Register").click(function () {
+                $.ajax({
+                    url: '/api/RegisValApi/CheckGpa',
+                    method: 'GET',
+                    data: {
+                        userId: UserId
+                    },
+                    success: function (response) {
+                        //alert(vm.coursesId);
+                        if (vm.coursesId.length > response.CoureTaken) {
+                            if (response.CoureTaken === 7)
+                                bootbox.alert("You Cann't Register More that 7 Courses Beacuse Your GPA is" + " " + response.Gpa);
+                            if (response.CoureTaken === 6)
+                                bootbox.alert("You Cann't Register More that 6 Courses Beacuse Your GPA is" + " " + response.Gpa);
+                            if (response.CoureTaken === 5)
+                                bootbox.alert("You Cann't Register More that 5 Courses Beacuse Your GPA is" + " " + response.Gpa);
+                            if (response.CoureTaken === 4)
+                                bootbox.alert("You Cann't Register More that 4 Courses Beacuse Your GPA is" + " " + response.Gpa);
+                            if (response.CoureTaken === 3)
+                                bootbox.alert("You Cann't Register More that 3 Courses Beacuse Your GPA is" + " " + response.Gpa);
+                        }
+                        else if (vm.coursesId.length === 0 || vm.coursesId.length < 3) {
+                            bootbox.alert("You Must Choses more than 2 Courses");
+                        }
+                        else {
+                            // ----------------------------- Register Courses -------------------------
+                            $.ajax({
+                                url: '/api/StudentRegis/Register',
+                                method: 'POST',
+                                data: vm,
+                                success: function () {
+                                    window.location.href = "/Student/StudentUser";
+                                },
+                                error: function() {
+                                    alert("Registration Error");
+                                }
+                            });
+                            //bootbox.alert("You Can Register these Courses");
+                        }
+                    },
+                    error: function() {
+                        alert("Fail");
+                    }
+                });
+            });
+
+
+            
+
+
+
+            
+        });
+    </script>
+    <script>
+        $.ajax({
+            url: "/api/StudentRegis/AvailableRegiCourese",
+            method: "GET",
+            data: {
+                currentUserId: @ViewData["Id"]
+            },
+            success: function (response) {
+                if (response.length > 0) {
+                    for (var x = 0; x < response.length; x++) {
+                        $("#RegterCourses").append("<li>" + response[x].CourseName + "</li>");
+                    }
+                }
+                else {
+                    $("#RegterCourses").append("<li>No Data Returned</li>");
+                }
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    </script>
+}
+

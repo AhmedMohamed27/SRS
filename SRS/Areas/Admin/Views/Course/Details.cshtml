@@ -1,0 +1,90 @@
+﻿@model SRS.Models.ViewModel.CourseDetailsVm
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h1>Course Details</h1>
+@if (Model.CourseDoctor.Any() && Model.CourseStuffs.Any() && Model.students.Any())
+{
+    <h4>@Html.ActionLink("Print Details View To PDF", "PrintPartialViewToPdf", new { id = Model.CourseId }, new { target = "blank" })</h4>
+}
+<br/>
+<div class="container">
+    <div class="row CourseDetails">
+        <div class="col-md-12">
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Name:</span> @Model.Coursename</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Code:</span> @Model.CourseCode</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Time:</span> @Model.CourseTime</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Department:</span> @Model.CourseDepartment</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Creadit hours:</span> @Model.CourseCredit</label>
+            </div>
+            <br />
+            <div class="form-control">
+                @if (!Model.CourseDoctor.Any())
+                {
+
+                    <label><span style="color: #f28221">Course Doctor:</span> No Doctor Assinged For this Course until Now</label>
+                }
+                else
+                {
+                    <label><span style="color: #f28221">Course Doctor:</span> @Model.CourseDoctor</label>
+                }
+            </div>
+            <br />
+            <div class="form-control" style="height: auto">
+                @if (!Model.CourseStuffs.Any())
+                {
+
+                    <label><span style="color: #f28221">Course Stuffs:</span>&nbsp;No Stuffs Assinged For this Course until Now</label>
+                }
+                else
+                {
+                    <label><span style="color: #f28221">Course Stuffs:</span></label>
+                    <ol>
+                        @foreach (var stuff in Model.CourseStuffs)
+                        {
+                            <li>@stuff</li>
+                        }
+                    </ol>
+                }
+            </div>
+            <br />
+            <div class="form-control" style="height: auto">
+                @if (!Model.students.Any())
+                {
+                    <label><span style="color: #f28221">Course Students:</span>&nbsp;No Students Register this Course until Now</label>
+                }
+                else
+                {
+                    <label><span style="color: #f28221">Course Students:</span></label>
+                    <ol>
+                        @foreach (var student in Model.students)
+                        {
+                            <li><span style="color: #f28221">Student Id:</span> @student.Id &nbsp;||&nbsp; <span style="color: #f28221">Name:</span> @student.Name &nbsp;||&nbsp; <span style="color: #f28221">Email:</span> @student.Email &nbsp;||&nbsp; <span style="color: #f28221">Level:</span> @student.Level</li>
+                        }
+                    </ol>
+                    
+                    
+                }
+            </div>
+            <br />
+            <h4><a href="@Url.Action("Index","Course",new { Area = "Admin" })" class="btn btn-primary retBack">Back</a></h4>
+
+        </div>
+    </div>
+</div>
+

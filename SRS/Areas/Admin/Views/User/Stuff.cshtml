@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Stuff";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Stuff Managment</h2>
+
+<div class="container">
+    <div class="row">
+        <table id="users" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Email</td>
+                    <td>Phone</td>
+                    <td>Role</td>
+                    <td>Level</td>
+                    <td>Student ID</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#users").DataTable({
+                ajax: {
+                    url: "/api/StuffAPI/GetStuffs",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "FirstName",
+
+                    },
+                    {
+                        data: "LastName",
+                    },
+                    {
+                        data: "Email",
+                    },
+                    {
+                        data: "Phone",
+                    },
+                    {
+                        data: "AspRoleName",
+                    },
+                    {
+                        data: "StudentLvlName",
+                    },
+                    {
+                        data: "StudentID",
+                    },
+                    {
+                        data: "UserId",
+                        render: function (data, type, user) {
+
+                            return "<a href='/Admin/User/Update/" + user.UserId + "'>Update</a>  <button class='btn-link js-delete' data-user-name=" + user.FirstName + " " + user.LastName + " data-user-id=" + data + ">Delete</button> ";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#users").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete" + " " + "<b style='font-size:20px'>" + button.attr("data-user-name") + "</b>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/UsersAPI" + "/" + button.attr("data-user-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+
+            });
+        })
+    </script>
+}
+

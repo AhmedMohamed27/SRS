@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="container">
+    <div class="row">
+        <table id="roles" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td>Role Name</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach(var row in Model)
+                {
+                    <tr>
+                        <td><h4>@row.Name</h4></td>
+                        <td>@Html.ActionLink("Update", "Update", "Roles", new { id = row.RoleId },new { @class = "btn btn-primary" })&nbsp;&nbsp;</td>
+                    </tr>
+                }*@
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#roles").DataTable({
+                ajax: {
+                    url: "/api/RolesAPI",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Name",
+                        
+                    },
+                    {
+                        data: "RoleId",
+                        render: function (data, type, role) {
+                            return "<button class='btn-link js-delete' data-role-name=" + role.Name + " data-role-id=" + data + ">Delete</button> | &nbsp;&nbsp; <a href='Roles/Update/" + role.RoleId + "'>Update</a>";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#roles").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete" + " " + "<b style='font-size:20px'>" + button.attr("data-role-name") + "</b>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/RolesAPI" + "/" + button.attr("data-role-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+
+            });
+        })
+    </script>
+}
+

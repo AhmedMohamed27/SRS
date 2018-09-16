@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Stuff Courses</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="stuffCourses" class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Email</td>
+                        <td>Course Name</td>
+                        <td>Course Code</td>
+                        <td>Department Name</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#stuffCourses").DataTable({
+                ajax: {
+                    url: "/api/StuffCoursesAPI/",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "FirstName"
+
+                    },
+                    {
+                        data: "LastName"
+                    },
+                    {
+                        data: "Email"
+                    },
+                    {
+                        data: "CourseName"
+                    },
+                    {
+                        data: "CourseTit"
+                    },
+                    {
+                        data: "DepName"
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, stuffCourse) {
+                            return "<button class='btn-link js-delete' data-stuffCourse-id=" + data + ">Delete</button> ";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#stuffCourses").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete This Stuff Course Role ?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/StuffCoursesAPI" + "/" + button.attr("data-stuffCourse-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+
+            });
+        })
+    </script>
+}
+

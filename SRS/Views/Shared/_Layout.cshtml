@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SRS</title>
+    @Styles.Render("~/Content/CSS")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row topNavBar">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-md-2 col-sm-8 con1">
+                        <img class="img-responsive logo" src="~/Content/img/logo.png" />
+                    </div>
+                    <div class="col-md-10 con2">
+                        <nav class="navbar navbar-default">
+                            <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+
+                                </div>
+
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li class="hvr-underline-reveal"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                                        <li class="hvr-underline-reveal"><a href="#">Computer Science</a></li>
+                                        <li class="hvr-underline-reveal"><a href="#">About Us</a></li>
+                                        <li class="hvr-underline-reveal"><a href="#">Contact Us</a></li>
+                                    </ul>
+
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li>
+                                            <i class="fa fa-2x fa-sign-in" aria-hidden="true">&nbsp;<span>@Html.ActionLink("Log in", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</span>&nbsp;</i>&nbsp;&nbsp;
+                                        </li>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div><!-- /.container-fluid -->
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br />
+        @RenderBody()
+        <br />
+        <div class="row Footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d13830.013572574324!2d30.8836681!3d29.9361959!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2seg!4v1513381560667" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                    <div class="col-md-3">
+                        <ul>
+                            <li class="hvr-overline-from-left">Home</li>
+                            <li class="hvr-overline-from-left">Computer Science</li>
+                            <li class="hvr-overline-from-left">About Us</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <br />
+                        <input placeholder="Your Name ..." class="form-control" type="text" />
+                        <br />
+                        <textarea placeholder="Your Message" class="form-control"></textarea>
+                        <br />
+                        <button class="btn btn-default">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Scripts.Render("~/bundles/Scripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

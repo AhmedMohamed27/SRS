@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<div id="exTab1" class="container">
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#1a" id="generalTab" data-toggle="tab">General</a>
+        </li>
+        <li>
+            <a href="#2a" id="sweTab" data-toggle="tab">Software Engineering</a>
+        </li>
+        <li>
+            <a href="#3a" data-toggle="tab">IT</a>
+        </li>
+        
+    </ul>
+
+    <div class="tab-content clearfix">
+        <div class="tab-pane active" id="1a">
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="generalCourses" class="table table-bordered table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <td>Course Name</td>
+                                <td>Department</td>
+                                <td>Course Code</td>
+                                <td>Num of ch</td>
+                                <td>Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="2a">
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="SweCourses" class="table table-bordered table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <td>Course Name</td>
+                                <td>Department</td>
+                                <td>Course Code</td>
+                                <td>Num of ch</td>
+                                <td>Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="3a">
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="ItCourses" class="table table-bordered table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <td>Course Name</td>
+                                <td>Department</td>
+                                <td>Course Code</td>
+                                <td>Num of ch</td>
+                                <td>Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="container">
+    
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table1 = $("#generalCourses").DataTable({
+                ajax: {
+                    url: "/api/CourseAPI",
+                    dataSrc: "",
+                    method: "GET"
+                },
+                columns: [
+                    {
+                        data: "CourseName"
+
+                    },
+                    {
+                        data: "DeparetmentName"
+                    },
+                    {
+                        data: "CourseTitle"
+                    },
+                    {
+                        data: "CreadedHours"
+                    },
+                    {
+                        data: "CourseId",
+                        render: function (data, type, course) {
+
+                            return "<a href='/Admin/Course/Update/" + course.CourseId + "'>Update</a>  <button class='btn-link js-delete' data-course-name=" + course.CourseName + " data-course-id=" + data + ">Delete</button> <a href='/Admin/Course/Details/" + course.CourseId + "'>Details</a>";
+                        }
+                    }
+                ]
+            });
+            
+            var table2 = $("#SweCourses").DataTable({
+                ajax: {
+                    url: "/api/SweAPI/GetSWECourses",
+                    dataSrc: "",
+                    method: "GET"
+                },
+                columns: [
+                    {
+                        data: "CourseName",
+
+                    },
+                    {
+                        data: "DeparetmentName",
+                    },
+                    {
+                        data: "CourseTitle",
+                    },
+                    {
+                        data: "CreadedHours",
+                    },
+                    {
+                        data: "CourseId",
+                        render: function (data, type, course) {
+
+                            return "<a href='/Stuff/Course/Update/" + course.CourseId + "'>Update</a>  <button class='btn-link js-delete' data-course-name=" + course.CourseName + " data-course-id=" + data + ">Delete</button> ";
+                        }
+                    }
+                ]
+            });
+            
+            var table3 = $("#ItCourses").DataTable({
+                ajax: {
+                    url: "/api/ITAPI/GetItCourses",
+                    dataSrc: "",
+                    method: "GET"
+                },
+                columns: [
+                    {
+                        data: "CourseName",
+
+                    },
+                    {
+                        data: "DeparetmentName",
+                    },
+                    {
+                        data: "CourseTitle",
+                    },
+                    {
+                        data: "CreadedHours",
+                    },
+                    {
+                        data: "CourseId",
+                        render: function (data, type, course) {
+
+                            return "<a href='/Stuff/Course/Update/" + course.CourseId + "'>Update</a>  <button class='btn-link js-delete' data-course-name=" + course.CourseName + " data-course-id=" + data + ">Delete</button> ";
+                        }
+                    }
+                ]
+            });
+
+            $("#generalCourses").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete" + " " + "<b style='font-size:20px'>" + button.attr("data-course-name") + "</b>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/CourseAPI" + "/" + button.attr("data-course-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table1.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+
+            });
+
+            $("#SweCourses").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete" + " " + "<b style='font-size:20px'>" + button.attr("data-course-name") + "</b>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/CourseAPI" + "/" + button.attr("data-course-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table2.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+
+            });
+
+            $("#ItCourses").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete" + " " + "<b style='font-size:20px'>" + button.attr("data-course-name") + "</b>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/CourseAPI" + "/" + button.attr("data-course-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table2.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+
+            });
+        })
+    </script>
+}
+

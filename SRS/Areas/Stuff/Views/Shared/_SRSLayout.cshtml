@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+<html>
+<head runat="server">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @Styles.Render("~/Content/CSS")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index", "AspNetUsers", new { Area = "Admin" })">
+                            <img src="~/Content/img/logo.png" class="img-circle profile_img" />
+                        </a>
+
+                    </div>
+
+                    @*<div class="clearfix"></div>*@
+
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+
+                        <div class="profile_info">
+                            @*@*<span>Welcome,</span>*@
+                            <h2>@*@Html.Label((string)(Model.FirstName))*@</h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Name :@ViewData["FullName"]</h3>
+                            @if (ViewData["Role"].ToString() == "1")
+                            {
+                                <h3>Role : Student</h3>
+                            }
+                            else if (ViewData["Role"].ToString() == "3")
+                            {
+                                <h3>Role : Stuff</h3>
+                            }
+                            else
+                            {
+                                <h3>Role : Admin</h3>
+                            }
+
+                            @if (ViewData["Level"].ToString() == "1")
+                            {
+                                <h3>Level : One</h3>
+                            }
+                            else if (ViewData["Level"].ToString() == "2")
+                            {
+                                <h3>Level : Two</h3>
+                            }
+                            else if (ViewData["Level"].ToString() == "3")
+                            {
+                                <h3>Level : Three</h3>
+                            }
+                            else if (ViewData["Level"].ToString() == "4")
+                            {
+                                <h3>Level : Four</h3>
+                            }
+                            else
+                            {
+                                <h3></h3>
+                            }
+                            <ul class="nav side-menu">
+                                @if (ViewData["Role"].ToString() == "4")
+                                {
+                                    <li>
+                                        <a><i class="fa fa-users" aria-hidden="true"></i>User Managment <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            @*<li>@Html.ActionLink("Admin", "Index", "User", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Stuffs", "Stuff", "User", new { area = "Admin" }, null)</li>
+                                            <li>
+                                                @Html.ActionLink("Students", "Student", "User", new { area = "Admin" }, null)
+
+                                            </li>
+                                            <li>@Html.ActionLink("Add New User", "Add", "User", new { area = "Admin" }, null)</li>*@
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a><i class="fa fa-certificate" aria-hidden="true"></i>Roles <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>@Html.ActionLink("Dashboard", "Index", "Roles", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Add New Role", "New", "Roles", new { area = "Admin" }, null)</li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a><i class="fa fa-folder-open" aria-hidden="true"></i>Courses <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>@Html.ActionLink("Dashboard", "Index", "Course", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Add New Course", "Add", "Course", new { area = "Admin" }, null)</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a><i class="fa fa-code-fork" aria-hidden="true"></i>Pre Courses <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>@Html.ActionLink("Dashboard", "Index", "PreRequisCourse", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Assign Pre Courses", "Assign", "PreRequisCourse", new { area = "Admin" }, null)</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a><i class="fa fa-key" aria-hidden="true"></i>Stuff Course Roles <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>@Html.ActionLink("Dashboard", "Index", "StuffCourses", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Assign Courses To Stuff", "Add", "StuffCourses", new { area = "Admin" }, null)</li>
+                                        </ul>
+                                    </li>   
+                                }
+                                else if(ViewData["Role"].ToString() == "3")
+                                {
+                                    <li>
+                                        <a><i class="fa fa-users" aria-hidden="true"></i>Courses <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu" id="courseList">
+                                            @*<li>@Html.ActionLink("Admin", "Index", "User", new { area = "Admin" }, null)</li>
+                                            <li>@Html.ActionLink("Stuffs", "Stuff", "User", new { area = "Admin" }, null)</li>
+                                            <li>
+                                                @Html.ActionLink("Students", "Student", "User", new { area = "Admin" }, null)
+
+                                            </li>
+                                            <li>@Html.ActionLink("Add New User", "Add", "User", new { area = "Admin" }, null)</li>*@
+                                        </ul>
+                                    </li>
+                                }
+
+
+                                @*<li>
+                                        <a><i class="fa fa-edit"></i>Sales <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="form.html">Sales Employees</a></li>
+                                            <li><a href="form_advanced.html">Sales Vault</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-desktop"></i>Visitor Users <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="general_elements.html">Users Info</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-table"></i>Place Owner <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="tables.html">Subscribe Plans</a></li>
+                                            <li><a href="tables_dynamic.html">Subscribe Requests</a></li>
+                                            <li><a href="tables_dynamic.html">Create Place</a></li>
+                                            <li><a href="tables_dynamic.html">Places Managments</a></li>
+                                            <li><a href="tables_dynamic.html">Places Events</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-bar-chart-o"></i>Contcat Us <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="chartjs.html">Contact Us Messages</a></li>
+                                            <li><a href="chartjs2.html">contact Us Setting</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-clone"></i>Website Information <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="fixed_sidebar.html">Our History</a></li>
+                                            <li><a href="fixed_footer.html">Terms & Conductions</a></li>
+                                            <li><a href="fixed_footer.html">Help</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-bar-chart-o"></i>Website Areas<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="chartjs.html">Footer Text</a></li>
+                                            <li><a href="chartjs2.html">Wqhat People Say</a></li>
+                                            <li><a href="chartjs2.html">Makany TV</a></li>
+                                            <li><a href="chartjs2.html">Our Sponsers</a></li>
+                                            <li><a href="chartjs2.html">APIs & Links</a></li>
+                                            <li><a href="chartjs2.html">Ads Contole</a></li>
+                                        </ul>
+                                    </li>*@
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <!-- /sidebar menu -->
+
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="images/img.jpg" alt="">
+                                    @User.Identity.Name
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    @*<li><a href="javascript:;">Profile</a></li>
+                                        <li>
+                                            <a href="javascript:;">
+                                                <span class="badge bg-red pull-right">50%</span>
+                                                <span>Settings</span>
+                                            </a>
+                                        </li>
+                                        <li><a href="javascript:;">Help</a></li>*@
+                                    <li><a href="/User/Logout"><i class="fa fa-sign-out pull-right"></i>Log off</a></li>
+
+                                </ul>
+                            </li>
+
+                            @*<li role="presentation" class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-envelope-o"></i>
+                                        <span class="badge bg-green">6</span>
+                                    </a>
+                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                        <li>
+                                            <a>
+                                                <span class="image">
+                                                    <img src="images/img.jpg" alt="Profile Image" />
+                                                </span>
+                                                <span>
+                                                    <span>John Smith</span>
+                                                    <span class="time">3 mins ago</span>
+                                                </span>
+                                                <span class="message">
+                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <span class="image">
+                                                    <img src="images/img.jpg" alt="Profile Image" />
+                                                </span>
+                                                <span>
+                                                    <span>John Smith</span>
+                                                    <span class="time">3 mins ago</span>
+                                                </span>
+                                                <span class="message">
+                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <span class="image">
+                                                    <img src="images/img.jpg" alt="Profile Image" />
+                                                </span>
+                                                <span>
+                                                    <span>John Smith</span>
+                                                    <span class="time">3 mins ago</span>
+                                                </span>
+                                                <span class="message">
+                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <span class="image">
+                                                    <img src="images/img.jpg" alt="Profile Image" />
+                                                </span>
+                                                <span>
+                                                    <span>John Smith</span>
+                                                    <span class="time">3 mins ago</span>
+                                                </span>
+                                                <span class="message">
+                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <div class="text-center">
+                                                <a>
+                                                    <strong>See All Alerts</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>*@
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="row">
+
+                    <h1 class="h3">
+                        &nbsp;<asp:ContentPlaceHolder ID="PageTitle" runat="server"></asp:ContentPlaceHolder>
+                    </h1>
+
+                </div>
+                <div class="container body-content">
+                    @RenderBody()
+                </div>
+
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/Scripts")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+            var userId = @ViewData["Id"];
+            $(document).ready(function () {
+                $.ajax({
+                    url: "/API/AspStuffCourseAPI/GetStuffCourses/",
+                    method: "GET",
+                    data: {
+                        UserId: userId
+                    },
+                    success: function (response) {
+                        if (response.length > 0) {
+                            for (var x = 0; x < response.length; x++){
+                                $("#courseList").append('<li><a href="/Stuff/Courses/Index">' + response[x].CourseName + '</a></li>');
+                            }
+                        }
+                        else {
+                            $("#courseList").append('<li><a>No Courses</a></li>');
+                        }
+                    },
+                    error: function (jqxhr) {
+                        alert("Fail");
+
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

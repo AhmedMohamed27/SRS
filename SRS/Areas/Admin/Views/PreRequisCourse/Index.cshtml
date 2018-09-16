@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Pre-Requisit Courses</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="preRequsit" class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <td>Course</td>
+                        <td>Pre Requisite</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#preRequsit").DataTable({
+                ajax: {
+                    url: "/api/PreRequisCourseAPI/",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "CourseName",
+
+                    },
+                    {
+                        data: "PreCourseName",
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, user) {
+                            return "<button class='btn-link js-delete' data-preRequsit-id=" + data + ">Delete</button> ";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#preRequsit").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure that you want to delete This Pre-Requisit", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/PreRequisCourseAPI" + "/" + button.attr("data-preRequsit-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+
+            });
+        })
+    </script>
+}
+

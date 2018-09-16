@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_SRSLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var UserId = @ViewData["Id"];
+            $.ajax({
+                url: '/api/GpaAPI/InsertDefGpaVal',
+                method: 'GET',
+                data: {
+                    userId: UserId
+                },
+                success: function () {
+                    
+                },
+                error: function () {
+                    
+                }
+            });
+        })
+    </script>
+}
+

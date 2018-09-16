@@ -1,0 +1,654 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Reem+Kufi');
+@import url('https://fonts.googleapis.com/css?family=Reem+Kufi|Ubuntu+Condensed');
+.row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+body{
+    background-color:transparent !important
+}
+.field-validation-error {
+    color: #2A3F54;
+    font-size:14px;
+    font-weight:bold
+}
+
+.input-validation-error {
+    border: 2px solid #2A3F54
+}
+table{
+    width: 100% !important
+}
+/*--------------------------------------------------------------- Login ------------------------------------------------------*/
+.card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+}
+
+.btn {
+    font-weight: 700;
+    height: 36px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/*
+ * Card component
+ */
+.card {
+    background-color: #F7F7F7;
+    /* just in case there no content*/
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+/*
+ * Form styles
+ */
+.profile-name-card {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0;
+    min-height: 1em;
+}
+
+.reauth-email {
+    display: block;
+    color: #404040;
+    line-height: 2;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-signin #inputEmail,
+.form-signin #inputPassword {
+    direction: ltr;
+    height: 44px;
+    font-size: 16px;
+}
+
+.form-signin input[type=email],
+.form-signin input[type=password],
+.form-signin input[type=text],
+.form-signin button {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-signin .form-control:focus {
+    border-color: rgb(104, 145, 162);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+}
+
+.btn.btn-signin {
+    /*background-color: #4d90fe; */
+    background-color: rgb(104, 145, 162);
+    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    padding: 0px;
+    font-weight: 700;
+    font-size: 14px;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+
+    .btn.btn-signin:hover,
+    .btn.btn-signin:active,
+    .btn.btn-signin:focus {
+        background-color: rgb(12, 97, 33);
+    }
+
+.forgot-password {
+    color: rgb(104, 145, 162);
+}
+
+    .forgot-password:hover,
+    .forgot-password:active,
+    .forgot-password:focus {
+        color: rgb(12, 97, 33);
+    }
+/*--------------------------------------------------------------- Home -------------------------------------------------------*/
+/* ------------------------------------ Row number (1) ------------------------------------*/
+.topNavBar {
+    width: 100%;
+    height: 100px;
+    background-color: #fff
+}
+
+.topNavBar .logo{
+    width:100px;
+    height:100px;
+}
+
+.topNavBar .con2{
+    margin-top:40px;
+    
+}
+
+.topNavBar .con2 i{
+    margin-top:20px;
+    font-size:18px
+
+}
+
+/* ------------------------------------ Row number (2) ------------------------------------*/
+.navbar-default{
+    background-color:transparent !important;
+    border-color:transparent !important
+}
+
+.navbar-default a{
+    color:#f28221 !important;
+    font-family:Tahoma;
+    font-weight:bold !important
+}
+
+.topNavBar span{
+    font-family:Tahoma;
+    color:#f28221;
+    font-weight:bold
+}
+
+.hvr-underline-reveal {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  overflow: hidden;
+}
+.hvr-underline-reveal:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #28303a;
+  height: 4px;
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-underline-reveal:hover:before, .hvr-underline-reveal:focus:before, .hvr-underline-reveal:active:before {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+#myCarousel {
+    position: relative
+}
+
+#myCarousel i,#myCarousel2 i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+/* ------------------------------------ Row number (3) ------------------------------------*/
+.AboutUsUnderSlider{
+    height:250px;
+    width:100%;
+}
+
+.AboutUsUnderSlider .con3{
+    width:100%;
+    height:250px;
+    background-color:#f9f9f9;
+}
+
+.AboutUsUnderSlider .con3 i {
+    padding: 10px;
+    background-color: #ffb606;
+    border:4px solid #fff;
+    font-size:22px;
+    color:#fff;
+    position:relative;
+    top:-10px
+}
+
+.AboutUsUnderSlider .con3 h2 , .WelcomeToSRS .con4 h1,.UpadtdedCourse .con5 h1 , .OurUniversityGallary .con7 h1,.WhyUS h1,.AllTabs .tab1 h1{
+    font-family: 'Reem Kufi', sans-serif;
+}
+
+.AboutUsUnderSlider .con3 p,.UpadtdedCourse .con5 p,.WhyUS .con9 p,.Footer ul li,.AllTabs .tab1 p{
+    font-family: 'Reem Kufi', sans-serif;
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+.AboutUsUnderSlider .con3 p,.UpadtdedCourse .con5 p{
+    padding:10px;
+    font-size:20px;
+    color:#565656;
+}
+
+.hvr-float {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-float:hover, .hvr-float:focus, .hvr-float:active {
+  -webkit-transform: translateY(-25px);
+  transform: translateY(-25px);
+}
+
+/* ------------------------------------ Row number (4) ------------------------------------*/
+.WelcomeToSRS, .WelcomeToSRS .con4 {
+    width: 100%;
+    height: 330px
+}
+
+.WelcomeToSRS .con4 p{
+    line-height:40px;
+    font-size:20px;
+    color:#565656;
+    font-family: 'Reem Kufi', sans-serif;
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+/* ------------------------------------ Row number (5) ------------------------------------*/
+
+.UpadtdedCourse,.UpadtdedCourse .con5{
+    width:100%;
+    height:500px;
+}
+
+.UpadtdedCourse .con5{
+    background-image: url('img/UpdatedCourseBG.png');
+    background-size:100% 100%;
+}
+
+.UpadtdedCourse .con5 h1{
+    color:#fff;
+    font-size:50px
+}
+
+.UpadtdedCourse .con5 i{
+    margin-top:50px;
+    color:#fff;
+    font-size:50px
+}
+
+.UpadtdedCourse .con5 p{
+    width:70%;
+    margin-left:15%;
+    color:#fff;
+    font-size:25px
+}
+
+.UpadtdedCourse .con6 i{
+    padding:10px;
+    border-radius:5px
+}
+
+/* Back Pulse */
+@-webkit-keyframes hvr-back-pulse {
+  50% {
+    background-color: #ffb606
+  }
+}
+@keyframes hvr-back-pulse {
+  50% {
+    background-color: #474746;
+  }
+}
+.hvr-back-pulse {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  overflow: hidden;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  -webkit-transition-property: color, background-color;
+  transition-property: color, background-color;
+}
+.hvr-back-pulse:hover, .hvr-back-pulse:focus, .hvr-back-pulse:active {
+  -webkit-animation-name: hvr-back-pulse;
+  animation-name: hvr-back-pulse;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  background-color: #ffb606;
+  color: white;
+}
+
+/* ------------------------------------ Row number (6) ------------------------------------*/
+
+.OurUniversityGallary, .OurUniversityGallary .con7{
+    width: 100%;
+    height: 800px;
+}
+
+.OurUniversityGallary {
+    background-image: url('img/OurUniversityGalaryBG.png');
+    background-size:100% 100%
+}
+
+.OurUniversityGallary .con7 h1{
+    font-size:40px;
+    color:#fff;
+    margin-top:30px;
+    margin-bottom:80px
+}
+
+#myCarousel2 a{
+    background-image:none !important;
+}
+
+#myCarousel2 i{
+    margin-top:250px;
+    height:100%
+}
+
+/* ------------------------------------ Row number (7) ------------------------------------*/
+
+.WhyUS , .WhyUS .con8{
+    width:100%;
+    height:600px;
+}
+
+.WhyUS h1{
+    margin-top:20px;
+    margin-bottom:30px
+}
+
+.WhyUS .con9 p{
+    line-height:40px;
+    font-size:20px;
+    color:#565656;
+    text-align:left
+}
+
+.WhyUS .con9 img{
+    padding:10px;
+    border-radius:10px
+}
+
+.WhyUS .con9 .col-md-4 p{
+    font-size:15px;
+    text-align:center
+}
+
+/* ------------------------------------ Row number (8) ------------------------------------*/
+
+.Footer{
+    width:100%;
+    height:340px;
+    background-color:#565656;
+    margin-top:50px
+}
+
+.Footer iframe{
+    width:100%;
+    height:340px
+}
+
+.Footer ul{
+  width:100%;
+    height:100%;
+    margin-top:10px
+}
+
+.Footer ul li{
+    list-style-type:none;
+    color:#ffb606;
+    font-size:22px;
+    line-height:50px;
+    display:block !important
+}
+
+.Footer textarea{
+    height:200px;
+    max-width:100%
+}
+
+/* Overline From Left */
+.hvr-overline-from-left {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  overflow: hidden;
+}
+.hvr-overline-from-left:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 100%;
+  top: 0;
+  background: #fff;
+  height: 4px;
+  -webkit-transition-property: right;
+  transition-property: right;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-overline-from-left:hover:before, .hvr-overline-from-left:focus:before, .hvr-overline-from-left:active:before {
+  right: 0;
+}
+
+
+/*--------------------------------------------------------------- CS -------------------------------------------------------*/
+/* ------------------------------------ Row number (2) ------------------------------------*/
+
+.OverAllVideo{
+    width:100%;
+    height:600px;
+    background-color:#ccc
+}
+
+.AllTabs .tab1{
+    margin-top:20px
+}
+
+.AllTabs .tab1 h1{
+    margin-top:0px
+}
+
+/* -------------------------------------------- SRS Layout Dashboard ------------------------------------------------*/
+.left_col, .nav_title, .nav_menu {
+    background-color: #28303a !important
+}
+
+.nav.child_menu > li > a,a {
+    color: #f28221
+}
+
+.nav-sm .nav.side-menu li.active-sm, .nav.side-menu > li.active {
+    border-right: 5px solid #f28221 !important
+}
+
+.toggle a:hover{
+    color:#fff !important
+}
+
+.nav-md .container.body .col-md-3.left_col{
+    min-height: 103% !important;
+}
+
+footer {
+    background-color: #28303a !important;
+}
+
+.right_col {
+    border-right: 5px solid #28303a
+}
+
+.nav_menu{
+    border-bottom:none
+}
+
+
+
+.top_nav .nav .open > a, .top_nav .nav .open > a:focus, .top_nav .nav .open > a:hover, .top_nav .nav > li > a:focus, .top_nav .nav > li > a:hover {
+    background-color: #28303a !important;
+    color: #fff !important;
+    font-size: 18px;
+}
+
+.top_nav .navbar-right li{
+    font-size:20px;
+    font-weight:bold
+
+}
+
+.fa-sign-out {
+    font-size: 30px !important
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    margin-right:16px;
+}
+/*------------------------------------------------- Admin Dashboard 'Roles' ----------------------------------------------------------------*/
+.dataTables_wrapper > .row{
+    overflow:hidden !important;
+}
+.btn-default {
+    color: #fff !important
+}
+/*------------------------------------------------- Student Registration ------------------------------------------------------------------*/
+.list-group-item {
+    width: 500px;
+    background-color: #28303a !important;
+    color: #E7E7E7;
+    margin-bottom: 20px;
+}
+
+.tt-highlight {
+    color: #f28221 !important
+}
+.tt-suggestion:hover {
+    background-color: #28303a !important;
+}
+
+.tt-suggestion:hover .tt-highlight {
+    color: #f28221 !important
+}
+
+.tt-suggestion.tt-cursor {
+    background-color: #28303a !important;
+}
+
+.UserInfo {
+    background-color: #28303a !important;
+    border-radius:10px;
+    padding:15px
+}
+
+.registerBtn {
+    background-color: #f28221;
+    color:#f7f7f7
+}
+
+.registerBtn:hover {
+    cursor: pointer
+}
+
+
+.courseRemovePointer:hover {
+    cursor: pointer;
+    color: #e7e7e7
+}
+
+.bootbox-body {
+    font-size: 24px;
+    color: #2A3F54;
+    font-family: tahoma;
+    font-weight: bold
+}
+
+.modal-footer {
+    padding: 19px 20px 20px;
+    margin-top: 15px;
+    text-align: right;
+    border-top: 3px solid #f28221;
+}
+
+.modal-footer button {
+    background-color: #28303a !important;
+}
+.modal-footer button:hover {
+    cursor: pointer;
+    background-color: #f28221 !important;
+    color: #ffffff !important
+}
+
+
+.CourseDetails .form-control{
+    height: auto
+}
+
+.CourseDetails label {
+    font-size: 18px
+}
+
+.retBack:hover {
+    cursor: pointer
+}

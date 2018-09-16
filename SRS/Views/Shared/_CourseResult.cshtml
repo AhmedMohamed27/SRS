@@ -1,0 +1,57 @@
+﻿@model SRS.Models.ViewModel.CourseDetailsVm
+@{
+    ViewBag.Title = "Details";
+}
+
+<h1>Course Details</h1>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Name:</span> @Model.Coursename</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Code:</span> @Model.CourseCode</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Time:</span> @Model.CourseTime</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Department:</span> @Model.CourseDepartment</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Creadit hours:</span> @Model.CourseCredit</label>
+            </div>
+            <br />
+            <div class="form-control">
+                <label><span style="color: #f28221">Course Doctor:</span> @Model.CourseDoctor</label>
+            </div>
+            <br />
+            <div class="form-control" style="height: auto">
+                <label><span style="color: #f28221">Course Stuffs:</span></label>
+                <ol>
+                    @foreach (var stuff in Model.CourseStuffs)
+                    {
+                        <li>@stuff</li>
+                    }
+                </ol>
+            </div>
+            <br />
+            <div class="form-control" style="height: auto">
+                <label><span style="color: #f28221">Course Students:</span></label>
+                <ol>
+                    @foreach (var student in Model.students)
+                    {
+                        <li><span style="color: #f28221">Student Id:</span> @student.Id &nbsp;||&nbsp; <span style="color: #f28221">Name:</span> @student.Name &nbsp;||&nbsp; <span style="color: #f28221">Email:</span> @student.Email &nbsp;||&nbsp; <span style="color: #f28221">Level:</span> @student.Level</li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
